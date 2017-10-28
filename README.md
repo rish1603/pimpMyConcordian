@@ -1,2 +1,2 @@
 # pimpMyConcordian
-Making  concordians look good since 2017
+Effortlessly making  concordians look good since 2017
