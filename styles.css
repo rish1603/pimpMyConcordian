@@ -1,0 +1,8 @@
+.failure, .failure * {
+    background-color: #f5f5f5 !important;
+}
+
+.failure .expected {
+  text-decoration: none !important; 
+  color: black !important;
+}
