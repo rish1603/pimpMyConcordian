@@ -1,12 +1,12 @@
 var browserListener = function(tab) {
 
     if(tab.status === 'complete') {
-        //We insert the css
-        console.log("hi")
+        //insert the css
         chrome.tabs.insertCSS(tab.id, {
             file: "styles.css"
         });
     }
+    chrome.tabs.sendMessage(tab.id, {message: "removeDiff"});
 }
 
 chrome.browserAction.onClicked.addListener(browserListener);
