@@ -6,22 +6,26 @@
 1 verbose cli   '--',
 1 verbose cli   '-f',
 1 verbose cli   'compact',
-1 verbose cli   'background.js' ]
+1 verbose cli   'content.js' ]
 2 info using npm@3.10.10
 3 info using node@v6.11.3
-4 verbose stack Error: ENOENT: no such file or directory, open '/home/chrx/Documents/package.json'
-4 verbose stack     at Error (native)
+4 verbose stack Error: missing script: lint
+4 verbose stack     at run (/usr/lib/node_modules/npm/lib/run-script.js:151:19)
+4 verbose stack     at /usr/lib/node_modules/npm/lib/run-script.js:61:5
+4 verbose stack     at /usr/lib/node_modules/npm/node_modules/read-package-json/read-json.js:356:5
+4 verbose stack     at checkBinReferences_ (/usr/lib/node_modules/npm/node_modules/read-package-json/read-json.js:320:45)
+4 verbose stack     at final (/usr/lib/node_modules/npm/node_modules/read-package-json/read-json.js:354:3)
+4 verbose stack     at then (/usr/lib/node_modules/npm/node_modules/read-package-json/read-json.js:124:5)
+4 verbose stack     at /usr/lib/node_modules/npm/node_modules/read-package-json/read-json.js:311:12
+4 verbose stack     at /usr/lib/node_modules/npm/node_modules/graceful-fs/graceful-fs.js:78:16
+4 verbose stack     at tryToString (fs.js:457:3)
+4 verbose stack     at FSReqWrap.readFileAfterClose [as oncomplete] (fs.js:444:12)
 5 verbose cwd /home/chrx/Documents/repos/pimpMyConcordian
 6 error Linux 4.8.17-galliumos
-7 error argv "/usr/bin/node" "/usr/bin/npm" "run" "lint" "--" "-f" "compact" "background.js"
+7 error argv "/usr/bin/node" "/usr/bin/npm" "run" "lint" "--" "-f" "compact" "content.js"
 8 error node v6.11.3
 9 error npm  v3.10.10
-10 error path /home/chrx/Documents/package.json
-11 error code ENOENT
-12 error errno -2
-13 error syscall open
-14 error enoent ENOENT: no such file or directory, open '/home/chrx/Documents/package.json'
-15 error enoent ENOENT: no such file or directory, open '/home/chrx/Documents/package.json'
-15 error enoent This is most likely not a problem with npm itself
-15 error enoent and is related to npm not being able to find a file.
-16 verbose exit [ -2, true ]
+10 error missing script: lint
+11 error If you need help, you may report this error at:
+11 error     <https://github.com/npm/npm/issues>
+12 verbose exit [ 1, true ]

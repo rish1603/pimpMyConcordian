@@ -10,3 +10,4 @@ var browserListener = function(tab) {
 }
 
 chrome.browserAction.onClicked.addListener(browserListener);
+

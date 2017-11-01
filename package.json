@@ -1,0 +1,33 @@
+{
+  "name": "pimpmyconcordian",
+  "version": "1.0.0",
+  "description": "Effortlessly making  concordians look good since 2017",
+  "main": "background.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rish1603/pimpMyConcordian.git"
+  },
+  "keywords": [
+    "pimp",
+    "my",
+    "concordian"
+  ],
+  "author": "Rishi Parmar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rish1603/pimpMyConcordian/issues"
+  },
+  "homepage": "https://github.com/rish1603/pimpMyConcordian#readme",
+  "dependencies": {
+    "browserify": "^14.5.0",
+    "diff": "^3.4.0",
+    "webpack": "^3.8.1"
+  },
+  "devDependencies": {
+    "webpack": "^3.8.1",
+    "webpack-dev-server": "^2.9.3"
+  }
+}

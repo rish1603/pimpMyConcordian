@@ -10,7 +10,7 @@
     },
 
     "content_scripts": [{
-        "js": ["content.js"],
+        "js": ["newContent.js"],
         "matches": ["file://*/*"]
     }],
 
