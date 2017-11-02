@@ -1,8 +1,17 @@
 .failure, .failure * {
     background-color: #f5f5f5 !important;
+    overflow: hidden;
 }
 
 .failure .expected {
-  text-decoration: none !important; 
+  background-color: #f5f5f5 !important;
   color: black !important;
 }
+
+.rishiDiv, .rishiDiv * {
+    background-color: #f5f5f5;
+    text-decoration: none;
+    font-family: Courier New, Courier;
+    white-space: pre;
+}
+

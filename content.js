@@ -18,15 +18,15 @@ function manipulateDom(callback) {
     var actualDom = document.getElementsByClassName('failure')[0]; //points to div
     var color = '',
         span = null;
-    var diff = jsdiff.diffLines(actual, expected, {"ignoreWhitespace": false}),
+    var diff = jsdiff.diffLines(actual, expected, {"ignoreWhitespace": false, "newlineIsToken": false}),
         description = document.getElementById('description'),
 
         fragment = document.createDocumentFragment();
     diff.forEach(function(part){
         // green for additions, red for deletions
         // grey for common parts
-        color = part.added ? 'green' :
-            part.removed ? 'red' : 'grey';
+        color = part.added ? '#ff000090' :
+            part.removed ? '#00800090' : '#f5f5f5';
         span = document.createElement('span');
         span.style.backgroundColor = color;
         span.appendChild(document
@@ -40,6 +40,6 @@ function manipulateDom(callback) {
 
 function removeActual(actualToRemove, actualDom) {
     actualToRemove.parentNode.removeChild(actualToRemove);
-    // actualDom.classList.remove('failure');
-    // actualDomclassList.add('rishiDiv');
+    actualDom.classList.remove('failure');
+    actualDom.classList.add('rishiDiv');
 }
