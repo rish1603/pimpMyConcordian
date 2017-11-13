@@ -1,6 +1,8 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var jsdiff = require('diff');
+var x = 0;
 var orderedList = document.getElementsByTagName('ol')
+var numFails = document.getElementsByClassName('failure').length - 1; //number of fails starting at 0 ;)
 
 chrome.runtime.onMessage.addListener(
     function(request, sender) {
@@ -12,37 +14,54 @@ chrome.runtime.onMessage.addListener(
 
 function manipulateDom(callback) {
 
-    orderedList[0].parentNode.removeChild(orderedList[0]) //remove list
-    var actualToRemove = document.getElementsByClassName('failure')[0].getElementsByClassName('actual')[0]; //points to pre
-    var actual = document.getElementsByClassName('failure')[0].getElementsByClassName('actual')[0].textContent;
-    var expected = document.getElementsByClassName('failure')[0].getElementsByClassName('expected')[0].textContent;
-    var actualDom = document.getElementsByClassName('failure')[0]; //points to div
-    var color = '',
-        span = null;
-    var diff = jsdiff.diffLines(actual, expected, {"ignoreWhitespace": false, "newlineIsToken": false}),
-        description = document.getElementById('description'),
+    if (x <= numFails) {
+        orderedList[0].parentNode.removeChild(orderedList[0]) //remove lists
 
-        fragment = document.createDocumentFragment();
-    diff.forEach(function(part){
-        // green for additions, red for deletions
-        // grey for common parts
-        color = part.added ? '#ff000090' :
-            part.removed ? '#00800090' : '#f5f5f5';
-        span = document.createElement('span');
-        span.style.backgroundColor = color;
-        span.appendChild(document
-            .createTextNode(part.value));
-        fragment.appendChild(span);
-    });
-    // description.appendChild(fragment);
-    actualDom.appendChild(fragment);
-    callback(actualToRemove, actualDom);
+        var actualDom = document.getElementsByClassName('failure')[0]; //points to div
+        var actualToRemove = document.getElementsByClassName('failure')[0].getElementsByClassName('actual')[0]; //points to pre
+        var actual = document.getElementsByClassName('failure')[0].getElementsByClassName('actual')[0].textContent;
+        var expected = document.getElementsByClassName('failure')[0].getElementsByClassName('expected')[0].textContent;
+        var actualDomArray = document.getElementsByClassName('failure'); //points to div
+        var color = '',
+            code = null;
+        var diff = jsdiff.diffLines(actual, expected, {"ignoreWhitespace": false, "newlineIsToken": false}),
+            description = document.getElementById('description'),
+
+            fragment = document.createDocumentFragment();
+        diff.forEach(function(part){
+            // green for additions, red for deletions
+            // grey for common parts
+            color = part.added ? '#ff1b1b90' :
+                part.removed ? '#00ff007a' : '#f5f5f5';
+            code = document.createElement('code');
+            code.classList.add('test');
+            code.style.backgroundColor = color;
+            code.appendChild(document
+                .createTextNode(part.value));
+
+            if (code.textContent.includes("\n"));
+            {
+                console.log(code.textContent)
+            }
+            fragment.appendChild(code);
+        });
+        // description.appendChild(fragment);
+        //
+        actualDom.appendChild(fragment);
+        callback(actualToRemove, actualDom, manipulateDom); //need to pass in an array of doms, then delete them in a loop in the callback
+    }
+    else {
+        return;
+    }
+
 }
 
-function removeActual(actualToRemove, actualDom) {
+function removeActual(actualToRemove, actualDom, callback) {
+    x++;
     actualToRemove.parentNode.removeChild(actualToRemove);
     actualDom.classList.remove('failure');
     actualDom.classList.add('rishiDiv');
+    callback(removeActual);
 }
 
 },{"diff":2}],2:[function(require,module,exports){
