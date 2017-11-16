@@ -22,6 +22,7 @@
     "permissions": [
         "tabs", "http://*/*", "https://*/*", "file://*/*",
         "storage"
-    ]
+    ],
 
+    "web_accessible_resources": ["prism.js"]
 }

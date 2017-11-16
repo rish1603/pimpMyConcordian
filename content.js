@@ -1,7 +1,9 @@
 var jsdiff = require('diff');
 var x = 0;
 var orderedList = document.getElementsByTagName('ol')
+var tdArray = document.getElementsByTagName('td')
 var numFails = document.getElementsByClassName('failure').length - 1; //number of fails starting at 0 ;)
+
 
 chrome.runtime.onMessage.addListener(
     function(request, sender) {
@@ -14,12 +16,16 @@ chrome.runtime.onMessage.addListener(
 function manipulateDom(callback) {
 
     if (x <= numFails) {
+
         orderedList[0].parentNode.removeChild(orderedList[0]) //remove lists
 
         var actualDom = document.getElementsByClassName('failure')[0]; //points to div
         var actualToRemove = document.getElementsByClassName('failure')[0].getElementsByClassName('actual')[0]; //points to pre
         var actual = document.getElementsByClassName('failure')[0].getElementsByClassName('actual')[0].textContent;
         var expected = document.getElementsByClassName('failure')[0].getElementsByClassName('expected')[0].textContent;
+        document.getElementsByClassName('failure')[0].getElementsByClassName('expected')[0].style.textDecoration = "none"; //remove line-through expected
+
+
         var actualDomArray = document.getElementsByClassName('failure'); //points to div
         var color = '',
             code = null;
@@ -30,26 +36,51 @@ function manipulateDom(callback) {
         diff.forEach(function(part){
             // green for additions, red for deletions
             // grey for common parts
-            color = part.added ? '#ff1b1b90' :
-                part.removed ? '#00ff007a' : '#f5f5f5';
             code = document.createElement('code');
-            code.classList.add('test');
+            color = part.added ? '#bbffbb' :
+                part.removed ? '#ffbbb0' : '#f5f2f0';
+            if (part.added || part.removed) {
+                code.classList.add('language-diff');
+            }
+            else {
+                code.classList.add('language-XML');
+            }
             code.style.backgroundColor = color;
             code.appendChild(document
                 .createTextNode(part.value));
-
-            if (code.textContent.includes("\n"));
-            {
-                console.log(code.textContent)
-            }
             fragment.appendChild(code);
         });
-        // description.appendChild(fragment);
-        //
         actualDom.appendChild(fragment);
         callback(actualToRemove, actualDom, manipulateDom); //need to pass in an array of doms, then delete them in a loop in the callback
     }
     else {
+        var preToConvert = document.getElementsByTagName('pre')
+        var numberOfPres = preToConvert.length;
+
+        //change all pre's to new class
+        for(let x = 0; x < preToConvert.length ; x++) {
+            preToConvert[x].classList.add('language-XML'); 
+        }
+
+        //change tag from pre -> code
+        for(let x = 0; x < numberOfPres; x++) {
+            console.log("x = " + x)
+            console.log(preToConvert.length)
+            preToConvert[0].outerHTML = preToConvert[0].outerHTML.replace(/pre/g,"code");
+            console.log("hit");
+        }
+
+        for(let x = 0; x < numberOfPres ; x++)  {
+            tdArray[x].style.background = '#f5f2f0';
+        }
+
+
+        var s = document.createElement('script');
+        s.src = chrome.extension.getURL('prism.js');
+        (document.head||document.documentElement).appendChild(s);
+        s.onload = function() {
+            s.parentNode.removeChild(s);
+        };
         return;
     }
 
@@ -57,6 +88,7 @@ function manipulateDom(callback) {
 
 function removeActual(actualToRemove, actualDom, callback) {
     x++;
+    //codify every other pre
     actualToRemove.parentNode.removeChild(actualToRemove);
     actualDom.classList.remove('failure');
     actualDom.classList.add('rishiDiv');

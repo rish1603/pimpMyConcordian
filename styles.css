@@ -4,14 +4,19 @@
 }
 
 .failure .expected {
-  background-color: #f5f5f5 !important;
-  color: black !important;
+    background-color: #f5f5f5 !important;
+    color: black !important;
+    background-color: #f5f5f5; !important
 }
 
 .rishiDiv, .rishiDiv * {
-    background-color: #f5f5f5;
-    text-decoration: none;
+    background-color: #f5f5f5 !important;
+    text-decoration: none !important;
     font-family: Courier New, Courier;
-    white-space: pre;
+    white-space: pre !important;
+}
+
+.del {
+    text-decoration: none; !important;
 }
 
