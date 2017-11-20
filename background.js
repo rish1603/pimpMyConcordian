@@ -3,7 +3,6 @@ var browserListener = function(tab) {
     if(tab.status === 'complete') {
         //insert the css
         chrome.tabs.insertCSS(tab.id, {
-            file: "styles.css",
             file: "prism.css"
         });
 

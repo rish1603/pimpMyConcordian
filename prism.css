@@ -5,13 +5,24 @@
  * @author Lea Verou
  */
 
+.language-diff * {
+    color: black !important;
+}
+
+.noselect {
+       -moz-user-select: none; /* Firefox  */
+            user-select: none; 
+}
+
+
+
 code[class*="language-"],
 pre[class*="language-"] {
 	color: black;
 	background: none;
 	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
 	text-align: left;
-	white-space: pre; 
+	white-space: pre;
 	word-spacing: normal;
 	word-break: normal;
 	word-wrap: normal;
@@ -26,10 +37,6 @@ pre[class*="language-"] {
 	-moz-hyphens: none;
 	-ms-hyphens: none;
 	hyphens: none;
-}
-
-.language-diff * {
-    color: black !important;
 }
 
 pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,

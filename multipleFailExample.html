@@ -203,7 +203,10 @@ ins {
             <p> <!--   xmlns:pcms="http://www.pcmsgroup.com/XML"  -->
 
               </p><div pcms_concordion:assertsimilar="getResponse()" class="failure"><del class="expected"><pre>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;
+              </tr>
+              <tr>
 &lt;ns2:UserResponseChangePassword xmlns:ns2="http://www.pcmsgroup.com/USERService/namespace/" xmlns="http://www.pcmsgroup.com/envelope/namespace/"&gt;
+</tr>
     &lt;ns2:Header&gt;
         &lt;MessageID&gt;messageID&lt;/MessageID&gt;
         &lt;Response ResponseCode="OK"/&gt;
@@ -237,8 +240,7 @@ ins {
 
 
       Given the following input:
-
-      <table border="0" width="100%">
+<table border="0" width="100%">
         <tbody><tr>
           <td concordion:set="#resetPassword">
           <pre>          
