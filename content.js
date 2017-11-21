@@ -3,12 +3,12 @@ var counter = 0;
 var orderedList = document.getElementsByTagName('ol')
 var tdArray = document.getElementsByTagName('td')
 var numFails = document.getElementsByClassName('failure').length - 1; //number of fails starting at 0 ;)
-var myDiv;
-
+var failures, myDivs = [];
 
 chrome.runtime.onMessage.addListener(
     function(request, sender) {
         if (request.message == "removeDiff") {
+            var myDivs = [];
             manipulateDom(removeActual);
         }
     }
@@ -80,6 +80,14 @@ function manipulateDom(callback) {
         };
 
         //call new function here -> function needs to get to end of html after it has all been pimped
+        // make it use updated innerHTML
+        failures = document.getElementsByClassName('rishiDiv');
+        myDivs = document.getElementsByClassName('expected');
+        console.log(myDivs[0].innerHTML)
+
+        for (let x = 0; x < myDivs.length; x++) {
+            failures[x].innerHTML = fillLines(failures[x].innerHTML, myDivs[x].innerHTML);
+        }
 
         return;
     }
@@ -90,28 +98,27 @@ function removeActual(actualToRemove, actualDom, callback) {
     actualToRemove.parentNode.removeChild(actualToRemove);
     actualDom.classList.remove('failure');
     actualDom.classList.add('rishiDiv');
-    myDiv = document.getElementsByClassName('rishiDiv');
-
     counter++;
-
-
     callback(removeActual);
 }
 
-function fillLines(string) {
+function fillLines(string, myDiv) {
+    var diffToLongest;
     var longestLine = 0;
     var lastLinePosition;
     var previousIndex = 0;
     var spacesString = 'axax';
+    var index = myDiv.length;
     var lineCount;
     var charPosition;
     var arrayOfIndex = []; //stores the indexes at where the line ends
     var numSpaces = [];
 
-    for (lineCount = -1, index = 0; index != -1; lineCount++) {
+    for (lineCount = -1, _index = index; index != -1; lineCount++) {
 
         index = string.indexOf('&gt;\n', index + 1) //find position of line break
         charPosition = index - previousIndex; //find the difference i.e. number of chars on this line
+
         arrayOfIndex.push(index);
 
         if (charPosition > longestLine) { //calculate line with the most chars
@@ -119,35 +126,24 @@ function fillLines(string) {
         }
         previousIndex = index; //update previous
     }
-    // console.log(previousIndex);
-    var test = document.getElementsByClassName('expected')[0].innerHTML.length;
-    console.log(test);
 
-    string = string.insert(test, 'zomg');
+    for (lineCount = -1, _index = index; index != -1; lineCount++) {
 
+        index = string.indexOf('&gt;\n', index + 1) //find position of line break
+        charPosition = index - previousIndex; //find the difference i.e. number of chars on this line
+        console.log(charPosition);
+        diffToLongest = longestLine - charPosition;
+        numSpaces.push(diffToLongest); // (int) diff to longest line
 
-    //1) Fix longest line -> get index of last \n on expected
-    //2) Need an array that goes alongside arrayOfIndex, that stores the difference between the longest line and the current line
-    //
-    // for (lineCount = -1, index = 0; index != -1; lineCount++) {
+        previousIndex = index; //update previous
+    }
+    console.log(numSpaces);
 
-    //     index = string.indexOf('&gt;\n', index + 1) //find position of line break
-    //     charPosition = index - previousIndex; //find the difference i.e. number of chars on this line
-    //     previousIndex = index; //update previous
-    //     // console.log(longestLine)
-
-    //     if (charPosition < longestLine) {
-    //         numSpaces.push(charPosition);
-    //     }
-    // }
-
-    // console.log(numSpaces);
-
+    arrayOfIndex.splice(0,1); //remove first element
     arrayOfIndex.pop(arrayOfIndex.length - 1) //remove last element
 
     for(let x = arrayOfIndex.length - 1; x >= 0; x--) {
-        // console.log(arrayOfIndex[x]);
-        // string = string.insert(arrayOfIndex[x] + 4, spacesString);
+        string = string.insert(arrayOfIndex[x] + 4, spacesString);
     }
 
     return string;
